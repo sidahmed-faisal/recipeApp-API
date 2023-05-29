@@ -14,7 +14,7 @@ RUN python -m venv /py && \
     # upgrade pip 
     /py/bin/pip install --upgrade pip && \ 
     # install requirements file from the copied requirments file
-    /py/bin/pip install/ -r /tmp/requirements.txt && \
+    /py/bin/pip install -r /tmp/requirements.txt && \
     # remove temp files
     rm -rf /tmp && \
     # add user to the container
