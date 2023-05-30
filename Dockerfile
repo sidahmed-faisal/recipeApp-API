@@ -4,10 +4,13 @@ LABEL maintainer="Sidahmed"
 ENV PYTHONBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app app
 WORKDIR /app
 EXPOSE 8000
 
+# only to use the dev requirements by running docker compose
+ARG DEV=false
 #run the container with single layer of specifications
 # create a virtual environment name py to avoid confilcts with docker image dependencies
 RUN python -m venv /py && \
@@ -15,6 +18,10 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \ 
     # install requirements file from the copied requirments file
     /py/bin/pip install -r /tmp/requirements.txt && \
+    # install requirments.dev if DEV is true
+    if [ $DEV = "true"]; \
+        then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
+    fi && \
     # remove temp files
     rm -rf /tmp && \
     # add user to the container
