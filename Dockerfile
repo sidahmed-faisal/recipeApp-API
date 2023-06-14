@@ -16,6 +16,12 @@ ARG DEV=false
 RUN python -m venv /py && \
     # upgrade pip 
     /py/bin/pip install --upgrade pip && \ 
+    # install postgresql-client to connect to the psycopg package
+    apk add --update --no-cache postgresql-client &&\
+    # group installed packages below to virtual environment named .tmp-build-deps 
+    apk add --update --no-cache --virtual .tmp-build-deps \
+    #  install 3 packages needed by the adapter
+        build-base postgresql-dev musl-dev && \
     # install requirements file from the copied requirments file
     /py/bin/pip install -r /tmp/requirements.txt && \
     # install requirments.dev if DEV is true
@@ -24,6 +30,8 @@ RUN python -m venv /py && \
     fi && \
     # remove temp files
     rm -rf /tmp && \
+    # Delete packages group to keep a lightweight docker file
+    apk del .tmp-build-deps &&\
     # add user to the container
     adduser \
         --disabled-password \
