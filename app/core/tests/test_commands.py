@@ -27,7 +27,7 @@ class CommandTests(SimpleTestCase):
         patched_check.assert_called_once_with(database=['default'])
 
     @patch('time.sleep')
-    def wait_for_db_delay(self, patched_sleep ,patched_check):
+    def test_wait_for_db_delay(self, patched_sleep ,patched_check):
         """Test waiting for databases when getting OperationalError and try again"""
         # first two times mocked method raise a Psycopg2Error
         # first two times raise Psycopg2Error and the next three times raise OperationalError
