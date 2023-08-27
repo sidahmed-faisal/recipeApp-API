@@ -45,6 +45,6 @@ class ModelTests(TestCase):
             'test123'
         )
         # Field provided by PermisisionMixin
-        self.assertTrue(user.is_superuser())
+        self.assertTrue(user.is_superuser)
         # to Log in Django admin
-        self.assertTrue(user.is_staff())
+        self.assertTrue(user.is_staff)
