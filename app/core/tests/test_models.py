@@ -37,3 +37,14 @@ class ModelTests(TestCase):
         """Test that creating a user without an email raises a ValueError."""
         with self.assertRaises(ValueError):
             get_user_model().objects.create_user('','test123')
+
+    def test_create_superuser(self):
+        """Test Creating a Superuser."""
+        user = get_user_model().objects.create_superuser(
+            'test@example.com',
+            'test123'
+        )
+        # Field provided by PermisisionMixin
+        self.assertTrue(user.is_superuser())
+        # to Log in Django admin
+        self.assertTrue(user.is_staff())
